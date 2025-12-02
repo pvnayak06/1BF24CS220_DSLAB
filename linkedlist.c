@@ -13,6 +13,7 @@ void createList(int n) {
     struct Node *newNode, *temp;
     int data, i;
     if (n <= 0) {
+        
         printf("Number of nodes should be greater than 0.\n");
         return;
     }
@@ -104,17 +105,75 @@ void displayList() {
     }
     printf("NULL\n");
 }
+void deleteFirst() {
+    struct Node *temp;
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    temp = head;
+    head = head->next;
+    printf("Deleted element: %d\n", temp->data);
+    free(temp);
+}
+
+void deleteLast() {
+    struct Node *temp, *prev;
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    
+    if (head->next == NULL) {
+        printf("Deleted element: %d\n", head->data);
+        free(head);
+        head = NULL;
+        return;
+    }
+
+    temp = head;
+    while (temp->next != NULL) {
+        prev = temp;
+        temp = temp->next;
+    }
+    printf("Deleted element: %d\n",temp->data);
+    prev->next = NULL;
+    free(temp);
+}
+void deletevalue(int value){
+    struct Node *temp, *prev;
+   
+   if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    temp=head;
+    prev=NULL;
+    if(head->data==value){
+        head=head->next;
+        free(temp);
+        return;
+    }
+    while(temp!=NULL && temp ->data!=value)
+    {
+        prev=temp;
+        temp=temp->next;
+    }
+      if(temp==NULL){
+        printf("element not found");
+        return;
+    } 
+    prev->next=temp->next;
+    printf("deleted element is %d",temp->data);
+    free(temp);   
+    }
+
 
 int main() {
-    int choice, n, data, pos;
-    while (1) {
-        printf("\n--- Singly Linked List Operations ---\n");
-        printf("1. Create Linked List\n");
-        printf("2. Insert at Beginning\n");
-        printf("3. Insert at Any Position\n");
-        printf("4. Insert at End\n");
-        printf("5. Display List\n");
-        printf("6. Exit\n");
+    int choice, n, data, pos,value;
+    
+        printf("\nSingly Linked List Operations\n1. Create Linked List\n2. Insert at Beginning\n3. Insert at Any Position\n4. Insert at End\n5.Deletefirst\n6.deletelast\n7.deletevalue\n8.Display List\n9. Exit\n");
+        while (1) {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -139,10 +198,21 @@ int main() {
                 scanf("%d", &data);
                 insertAtEnd(data);
                 break;
-            case 5:
+             case 5:
+                deleteFirst();
+                break;
+             case 6:
+                deleteLast();
+                break;   
+            case 7:
+             printf("enter the value to be deleted: ");
+             scanf("%d",&value);
+             deletevalue(value);
+              break;
+             case 8:
                 displayList();
                 break;
-            case 6:
+            case 9:
                 printf("Exiting...\n");
                 exit(0);
             default:
@@ -152,3 +222,5 @@ int main() {
     return 0;
 }
 
+
+ 
